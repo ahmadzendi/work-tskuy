@@ -13,7 +13,7 @@ export class GoldRoom {
     this.usdIdrHistory = [];
     this.lastBuy = null;
     this.shownUpdates = new Set();
-    this.limitBulan = 8;
+    this.limitBulan = 888;
     this.treasuryWs = null;
     this.lastHeartbeat = 0;
     this.lastUsdFetch = 0;
