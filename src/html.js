@@ -28,6 +28,6 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <a href="https://imgbb.com/"><img src="https://i.ibb.co.com/kV48pQwN/bi.png" alt="bi" border="0"></a>
+    <img src="https://i.ibb.co.com/kV48pQwN/bi.png" alt="bi" border="0">
 </body>
 </html>`;
