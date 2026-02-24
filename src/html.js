@@ -579,7 +579,7 @@ function createTradingViewWidget(){
 var wrapper=document.getElementById('tradingview_chart');
 var h=wrapper.offsetHeight||370;
 new TradingView.widget({
-width:"100%",height:h,symbol:"OANDA:XAUUSD",interval:"15",
+width:"100%",height:h,symbol:"FOREXCOM:XAUUSD",interval:"15",
 timezone:"Asia/Jakarta",theme:isDark?'dark':'light',style:"1",
 locale:"id",toolbar_bg:"#f1f3f6",enable_publishing:false,
 hide_top_toolbar:false,save_image:false,container_id:"tradingview_chart"
