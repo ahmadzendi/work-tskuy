@@ -335,10 +335,10 @@ h3{font-size:0.88em;margin:10px 0 6px}
 <th class="waktu">Waktu</th>
 <th class="transaksi">Data Transaksi</th>
 <th class="profit" id="thP1">Est.cuan 10JT &#10138; gr</th>
-<th class="profit" id="thP2">Est.cuan 20JT &#10138; gr</th>
-<th class="profit" id="thP3">Est.cuan 30JT &#10138; gr</th>
-<th class="profit" id="thP4">Est.cuan 40JT &#10138; gr</th>
-<th class="profit" id="thP5">Est.cuan 50JT &#10138; gr</th>
+<th class="profit" id="thP2">Est.cuan 30JT &#10138; gr</th>
+<th class="profit" id="thP3">Est.cuan 40JT &#10138; gr</th>
+<th class="profit" id="thP4">Est.cuan 50JT &#10138; gr</th>
+<th class="profit" id="thP5">Est.cuan 60JT &#10138; gr</th>
 </tr>
 </thead>
 <tbody></tbody>
@@ -421,8 +421,8 @@ var isProcessing=false;
 var latestHistory=[];
 var isFirstRender=true;
 var savedPriority=localStorage.getItem('profitPriority');
-var profitPriority=(savedPriority&&['jt10','jt20','jt30','jt40','jt50'].indexOf(savedPriority)!==-1)?savedPriority:'jt10';
-var headerLabels={'jt10':'Est.cuan 10JT \\u27BA gr','jt20':'Est.cuan 20JT \\u27BA gr','jt30':'Est.cuan 30JT \\u27BA gr','jt40':'Est.cuan 40JT \\u27BA gr','jt50':'Est.cuan 50JT \\u27BA gr'};
+var profitPriority=(savedPriority&&['jt10','jt30','jt40','jt50','jt60'].indexOf(savedPriority)!==-1)?savedPriority:'jt10';
+var headerLabels={'jt10':'Est.cuan 10JT \\u27BA gr','jt30':'Est.cuan 30JT \\u27BA gr','jt40':'Est.cuan 40JT \\u27BA gr','jt50':'Est.cuan 50JT \\u27BA gr','jt60':'Est.cuan 60JT \\u27BA gr'};
 var blinkTimeout=null;
 var latestBuyRate=0;
 var latestSellRate=0;
@@ -598,7 +598,7 @@ isCalcUpdating=false;
 setupCalcListeners();
 
 function getOrderedProfitKeys(){
-var all=['jt10','jt20','jt30','jt40','jt50'];
+var all=['jt10','jt30','jt40','jt50','jt60'];
 var result=[profitPriority];
 all.forEach(function(k){if(k!==profitPriority)result.push(k);});
 return result;
@@ -650,7 +650,7 @@ initComplete:function(){
 var filterDiv=$('.dataTables_filter');
 var activeVal=profitPriority.replace('jt','');
 var btnsHtml='<div class="profit-order-btns" id="profitOrderBtns">';
-['10','20','30','40','50'].forEach(function(v){
+['10','30','40','50','60'].forEach(function(v){
 btnsHtml+='<button class="profit-btn'+(activeVal===v?' active':'')+'" data-val="'+v+'">'+v+'</button>';
 });
 btnsHtml+='</div>';
