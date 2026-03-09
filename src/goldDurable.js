@@ -1,8 +1,9 @@
 var MAX_HISTORY = 1441;
 var MAX_USD_HISTORY = 11;
-var TREASURY_WS_URL = "wss://ws-ap1.pusher.com/app/52e99bd2c3c42e577e13?protocol=7&client=js&version=7.0.3&flash=false";
-var ALARM_INTERVAL = 3000;
+var TREASURY_API_URL = "https://api.treasury.id/api/v1/antigrvty/gold/rate";
+var ALARM_INTERVAL = 500;
 var HEARTBEAT_INTERVAL = 15000;
+var GOLD_FETCH_INTERVAL = 500;
 
 export class GoldRoom {
   constructor(state, env) {
@@ -14,9 +15,9 @@ export class GoldRoom {
     this.lastBuy = null;
     this.shownUpdates = new Set();
     this.limitBulan = 888;
-    this.treasuryWs = null;
     this.lastHeartbeat = 0;
     this.lastUsdFetch = 0;
+    this.lastGoldFetch = 0;
     this.cachedPayload = null;
     this.payloadDirty = true;
 
@@ -38,9 +39,12 @@ export class GoldRoom {
   }
 
   async alarm() {
-    this.connectTreasuryWs();
-
     var now = Date.now();
+
+    if (now - this.lastGoldFetch >= GOLD_FETCH_INTERVAL) {
+      this.lastGoldFetch = now;
+      await this.fetchGoldRate();
+    }
 
     if (now - this.lastUsdFetch >= 3000) {
       this.lastUsdFetch = now;
@@ -181,7 +185,34 @@ export class GoldRoom {
     this.broadcast(this.getStatePayload());
   }
 
-  async processTreasuryData(data) {
+  async fetchGoldRate() {
+    try {
+      var resp = await fetch(TREASURY_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (!resp.ok) return;
+
+      var json = await resp.json();
+
+      if (!json.meta || json.meta.code !== 200 || !json.data) return;
+
+      var data = json.data;
+      await this.processGoldData({
+        buying_rate: data.buying_rate,
+        selling_rate: data.selling_rate,
+        created_at: data.updated_at,
+      });
+    } catch (e) {}
+  }
+
+  async processGoldData(data) {
     var buy = data.buying_rate;
     var sell = data.selling_rate;
     var upd = data.created_at;
@@ -222,46 +253,6 @@ export class GoldRoom {
     this.invalidatePayload();
     this.broadcastState();
     await this.saveState();
-  }
-
-  connectTreasuryWs() {
-    if (this.treasuryWs) return;
-
-    var self = this;
-    try {
-      var ws = new WebSocket(TREASURY_WS_URL);
-      this.treasuryWs = ws;
-
-      ws.addEventListener("open", function () {
-        ws.send(JSON.stringify({
-          event: "pusher:subscribe",
-          data: { channel: "gold-rate" },
-        }));
-      });
-
-      ws.addEventListener("message", async function (event) {
-        try {
-          var message = JSON.parse(event.data);
-          if (message.event === "gold-rate-event") {
-            var innerData = typeof message.data === "string"
-              ? JSON.parse(message.data)
-              : message.data;
-            await self.processTreasuryData(innerData);
-          }
-        } catch (e) {}
-      });
-
-      ws.addEventListener("close", function () {
-        self.treasuryWs = null;
-      });
-
-      ws.addEventListener("error", function () {
-        try { ws.close(); } catch (e) {}
-        self.treasuryWs = null;
-      });
-    } catch (e) {
-      this.treasuryWs = null;
-    }
   }
 
   async fetchUsdIdr() {
@@ -324,8 +315,6 @@ export class GoldRoom {
 
       this.state.acceptWebSocket(server);
       this.clients.add(server);
-
-      this.connectTreasuryWs();
 
       server.send(this.getStatePayload());
 
