@@ -1,875 +1,761 @@
 export var HTML_TEMPLATE = `<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
-<title>Harga Emas Treasury</title>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-<style>
-*{box-sizing:border-box}
-body{font-family:Arial,sans-serif;margin:0;padding:5px 20px 0 20px;background:#fff;color:#222;transition:background .3s,color .3s}
-h2{margin:0 0 2px}
-h3{margin:20px 0 10px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:2px}
-.title-wrap{display:flex;align-items:center;gap:10px}
-.tele-link{display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:transform .2s}
-.tele-link:hover{transform:scale(1.05)}
-.tele-icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#0088cc;color:#fff;border-radius:50%;transition:background .3s}
-.tele-link:hover .tele-icon{background:#006699}
-.tele-text{font-size:0.95em;font-weight:bold;color:#ff1744}
-.dark-mode .tele-icon{background:#29b6f6}
-.dark-mode .tele-link:hover .tele-icon{background:#0288d1}
-.dark-mode .tele-text{color:#00E124}
-.wa-link{display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:transform .2s}
-.wa-link:hover{transform:scale(1.05)}
-.wa-icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#25D366;color:#fff;border-radius:50%;transition:background .3s}
-.wa-link:hover .wa-icon{background:#128C7E}
-.wa-text{font-size:0.95em;font-weight:bold;color:#ff1744}
-.dark-mode .wa-icon{background:#25D366}
-.dark-mode .wa-link:hover .wa-icon{background:#128C7E}
-.dark-mode .wa-text{color:#00E124}
-.jam-social-row{display:flex;align-items:center;gap:14px;margin-bottom:8px;flex-wrap:wrap}
-#jam{font-size:2em;color:#ff1744;font-weight:bold}
-table.dataTable{width:100%!important;border-collapse:collapse}
-table.dataTable thead th{font-weight:bold;white-space:nowrap;padding:10px 8px;font-size:1em;border-bottom:2px solid #ddd}
-table.dataTable tbody td{padding:8px 6px;white-space:nowrap;border-bottom:1px solid #eee;font-size:1em}
-th.waktu,td.waktu{width:78px;min-width:72px;max-width:82px;text-align:center;padding-left:2px!important;padding-right:2px!important}
-th.transaksi,td.transaksi{text-align:left;min-width:220px}
-th.profit,td.profit{width:155px;min-width:145px;max-width:165px;text-align:left;padding-left:8px!important;padding-right:8px!important}
-.theme-toggle-btn{padding:0;border:none;border-radius:50%;background:#222;color:#fff;cursor:pointer;font-size:1.5em;width:44px;height:44px;display:flex;align-items:center;justify-content:center;transition:background .3s}
-.theme-toggle-btn:hover{background:#444}
-.dark-mode{background:#181a1b!important;color:#e0e0e0!important}
-.dark-mode #jam{color:#ffb300!important}
-.dark-mode table.dataTable,.dark-mode table.dataTable thead th{background:#23272b!important;color:#e0e0e0!important}
-.dark-mode table.dataTable tbody td{background:#23272b;color:#e0e0e0!important;border-bottom:1px solid #333}
-.dark-mode table.dataTable thead th{color:#ffb300!important;border-bottom:2px solid #444}
-.dark-mode .theme-toggle-btn{background:#ffb300;color:#222}
-.dark-mode .theme-toggle-btn:hover{background:#ffd54f}
-.container-flex{display:flex;gap:15px;flex-wrap:wrap;margin-top:10px}
-.card{border:1px solid #ccc;border-radius:6px;padding:10px}
-.card-usd{width:248px;height:370px;overflow-y:auto}
-.card-chart{flex:1;min-width:400px;height:370px;overflow:hidden}
-#priceList{list-style:none;padding:0;margin:0;max-height:275px;overflow-y:auto}
-#priceList li{margin-bottom:1px}
-.time{color:gray;font-size:.9em;margin-left:10px}
-#currentPrice{color:red;font-weight:bold}
-.dark-mode #currentPrice{color:#00E124;text-shadow:1px 1px #00B31C}
-#tabel tbody tr:first-child td{color:red!important;font-weight:bold}
-.dark-mode #tabel tbody tr:first-child td{color:#00E124!important}
-#footerApp{width:100%;position:fixed;bottom:0;left:0;background:transparent;text-align:center;z-index:100;padding:8px 0}
-.marquee-text{display:inline-block;color:#F5274D;animation:marquee 70s linear infinite;font-weight:bold}
-.dark-mode .marquee-text{color:#B232B2}
-@keyframes marquee{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
-.loading-text{color:#999;font-style:italic}
-.tbl-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.dataTables_wrapper{position:relative}
-.dt-top-controls{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:0!important;padding:8px 0;padding-bottom:0!important}
-.dataTables_wrapper .dataTables_length{margin:0!important;float:none!important;margin-bottom:0!important;padding-bottom:0!important}
-.dataTables_wrapper .dataTables_filter{margin:0!important;float:none!important}
-.dataTables_wrapper .dataTables_info{display:none!important}
-.dataTables_wrapper .dataTables_paginate{margin-top:10px!important;text-align:center!important}
-.tbl-wrap{margin-top:0!important;padding-top:0!important}
-#tabel.dataTable{margin-top:0!important}
-#tabel tbody td.transaksi{padding:6px 8px;white-space:nowrap}
-.profit-order-btns{display:none;gap:3px;align-items:center;margin-right:6px}
-.profit-btn{padding:5px 10px;border:1px solid #aaa;background:#f0f0f0;border-radius:4px;font-size:12px;cursor:pointer;font-weight:bold;transition:all .2s}
-.profit-btn:hover{background:#ddd}
-.profit-btn.active{background:#007bff;color:#fff;border-color:#007bff}
-.dark-mode .profit-btn{background:#333;border-color:#555;color:#ccc}
-.dark-mode .profit-btn:hover{background:#444}
-.dark-mode .profit-btn.active{background:#ffb300;color:#222;border-color:#ffb300}
-.filter-wrap{display:flex;align-items:center}
-.tradingview-wrapper{height:100%;width:100%;overflow:hidden}
-.chart-header{display:flex;justify-content:space-between;align-items:center;margin-top:0;margin-bottom:10px;flex-wrap:wrap;gap:8px}
-.chart-title-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.chart-title-wrap h3{margin:0}
-.chart-header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.spread-label{font-size:0.95em;font-weight:bold;color:#ff1744}
-.spread-num{font-size:1.1em;padding:2px 8px;background:#ff1744;color:#fff;border-radius:4px;margin-left:4px}
-.dark-mode .spread-label{color:#00E124}
-.dark-mode .spread-num{background:#00E124;color:#181a1b}
-.limit-label{font-size:0.95em;font-weight:bold;color:#ff1744}
-.limit-label .limit-num{font-size:1.1em;padding:2px 8px;background:#ff1744;color:#fff;border-radius:4px;margin-left:4px}
-.dark-mode .limit-label{color:#00E124}
-.dark-mode .limit-label .limit-num{background:#00E124;color:#181a1b}
-.dark-mode .card{border-color:#444}
-#tabel thead th.waktu,#tabel tbody td.waktu{position:sticky;left:0;z-index:2;background:#fff}
-#tabel thead th.waktu{z-index:3}
-.dark-mode #tabel thead th.waktu{background:#23272b}
-.dark-mode #tabel tbody td.waktu{background:#23272b}
-@keyframes blink-yellow{0%,100%{background-color:#fff}50%{background-color:#ffeb3b}}
-@keyframes blink-yellow-dark{0%,100%{background-color:#23272b}50%{background-color:#ffd600}}
-#tabel tbody tr.blink-row td.waktu{animation:blink-yellow 0.4s ease-in-out 5}
-.dark-mode #tabel tbody tr.blink-row td.waktu{animation:blink-yellow-dark 0.4s ease-in-out 5}
-.bottom-section{display:flex;flex-direction:row;gap:20px;margin-top:20px;margin-bottom:60px;align-items:flex-start}
-.calendar-box{flex:1;min-width:0}
-.calendar-box h3{margin:0 0 10px;font-size:1.1em;display:flex;align-items:center;gap:8px}
-.card-calendar{border:1px solid #ccc;border-radius:6px;padding:10px;height:520px;overflow:hidden}
-.dark-mode .card-calendar{border-color:#444;background:#23272b}
-.calendar-scroll-wrapper{width:100%;height:calc(100% - 30px);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
-.calendar-scroll-wrapper iframe{min-width:650px;width:100%;height:100%;border:none}
-.calendar-credit{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#333;margin-top:8px;text-align:center}
-.calendar-credit a{color:#06529D;font-weight:bold;text-decoration:none}
-.calendar-credit a:hover{text-decoration:underline}
-.dark-mode .calendar-credit{color:#aaa}
-.dark-mode .calendar-credit a{color:#ffb300}
-.calc-box{width:300px;flex-shrink:0}
-.calc-box h3{margin:0 0 10px;font-size:1.1em}
-.calc-cards{display:flex;flex-direction:column;gap:12px}
-.card-calc{border:1px solid #ccc;border-radius:6px;padding:14px;background:#fff}
-.dark-mode .card-calc{border-color:#444;background:#23272b}
-.card-calc h4{margin:0 0 10px;font-size:1em;display:flex;align-items:center;gap:6px;color:#333}
-.dark-mode .card-calc h4{color:#e0e0e0}
-.calc-rate{font-size:0.9em;color:#666;margin:0 0 12px;padding:8px 10px;background:#f5f5f5;border-radius:4px;font-weight:500}
-.calc-rate span{font-weight:bold;color:#ff1744}
-.dark-mode .calc-rate{background:#2a2e32;color:#aaa}
-.dark-mode .calc-rate span{color:#00E124}
-.calc-input-group{margin-bottom:12px}
-.calc-input-group:last-child{margin-bottom:0}
-.calc-input-group label{display:block;font-size:0.85em;margin-bottom:5px;color:#555;font-weight:500}
-.dark-mode .calc-input-group label{color:#aaa}
-.calc-input-group input{width:100%;padding:12px;border:2px solid #ddd;border-radius:6px;font-size:1em;transition:border-color .2s,box-shadow .2s}
-.calc-input-group input:focus{outline:none;border-color:#007bff;box-shadow:0 0 0 3px rgba(0,123,255,0.15)}
-.dark-mode .calc-input-group input{background:#1e2124;border-color:#444;color:#e0e0e0}
-.dark-mode .calc-input-group input:focus{border-color:#ffb300;box-shadow:0 0 0 3px rgba(255,179,0,0.15)}
-.calc-input-group input::placeholder{color:#999}
-.dark-mode .calc-input-group input::placeholder{color:#666}
-.chart-wrap{flex:1;min-width:400px}
-.usd-wrap{flex-shrink:0}
-.promo-btn{padding:5px 12px;border:2px solid #ff1744;background:linear-gradient(135deg,#ff1744,#ff5252);color:#fff;border-radius:20px;font-size:0.9em;cursor:pointer;font-weight:bold;transition:all .3s;text-transform:uppercase;letter-spacing:1px;box-shadow:0 2px 8px rgba(255,23,68,0.3)}
-.promo-btn:hover{transform:scale(1.08);box-shadow:0 4px 15px rgba(255,23,68,0.5);background:linear-gradient(135deg,#ff5252,#ff1744)}
-.promo-btn:active{transform:scale(0.95)}
-.dark-mode .promo-btn{background:linear-gradient(135deg,#00E124,#00ff41);border-color:#00E124;color:#181a1b;box-shadow:0 2px 8px rgba(0,225,36,0.3)}
-.dark-mode .promo-btn:hover{box-shadow:0 4px 15px rgba(0,225,36,0.5);background:linear-gradient(135deg,#00ff41,#00E124)}
-.promo-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center;z-index:9999;padding:20px;backdrop-filter:blur(5px)}
-.promo-overlay.active{display:flex}
-.promo-modal{position:relative;max-width:95%;max-height:95%;animation:promoFadeIn 0.3s ease}
-.promo-modal img{max-width:100%;max-height:85vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5);display:block}
-.promo-close{position:absolute;top:-12px;right:-12px;width:40px;height:40px;background:#ff1744;color:#fff;border:3px solid #fff;border-radius:50%;font-size:1.5em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,0.3)}
-.promo-close:hover{background:#d50032;transform:scale(1.15)}
-.dark-mode .promo-close{background:#00E124;color:#181a1b}
-.dark-mode .promo-close:hover{background:#00B31C}
-@keyframes promoFadeIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
-@media(min-width:768px) and (max-width:1024px){
-body{padding:15px;padding-bottom:50px}
-h2{font-size:1.15em}
-h3{font-size:1.05em;margin:15px 0 8px}
-.header{margin-bottom:4px}
-.tele-icon{width:30px;height:30px}
-.tele-icon svg{width:16px;height:16px}
-.tele-text{font-size:0.9em}
-.wa-icon{width:30px;height:30px}
-.wa-icon svg{width:16px;height:16px}
-.wa-text{font-size:0.9em}
-#jam{font-size:2em}
-.jam-social-row{gap:12px}
-.theme-toggle-btn{width:42px;height:42px;font-size:1.4em}
-.container-flex{flex-direction:row;gap:15px}
-.card-usd{width:220px;height:350px}
-.card-chart{flex:1;min-width:350px;height:350px}
-.dt-top-controls{flex-direction:row;justify-content:space-between;gap:8px;margin-bottom:8px;padding:6px 0}
-.dataTables_wrapper .dataTables_length{font-size:14px!important}
-.dataTables_wrapper .dataTables_filter{font-size:14px!important}
-.dataTables_wrapper .dataTables_filter input{width:100px!important;font-size:14px!important;padding:5px 8px!important}
-.dataTables_wrapper .dataTables_length select{font-size:14px!important;padding:4px!important}
-.dataTables_wrapper .dataTables_paginate .paginate_button{padding:6px 14px!important;font-size:14px!important}
-#tabel{min-width:1000px!important;table-layout:fixed!important}
-#tabel thead th{font-size:15px!important;padding:10px 6px!important;font-weight:bold!important}
-#tabel tbody td{font-size:14px!important;padding:9px 5px!important}
-#tabel thead th.waktu,#tabel tbody td.waktu{width:80px!important;min-width:75px!important;max-width:85px!important;padding-left:3px!important;padding-right:3px!important}
-#tabel thead th.transaksi,#tabel tbody td.transaksi{width:250px!important;min-width:245px!important;max-width:255px!important;padding:8px 10px!important}
-#tabel thead th.profit,#tabel tbody td.profit{width:130px!important;min-width:125px!important;max-width:135px!important;padding-left:6px!important;padding-right:6px!important}
-.profit-order-btns{display:flex}
-.profit-btn{padding:6px 12px;font-size:13px}
-.chart-header{flex-direction:row;gap:10px}
-.chart-title-wrap h3{font-size:1em}
-.spread-label{font-size:0.9em}
-.spread-num{font-size:1.05em;padding:2px 7px}
-.limit-label{font-size:0.9em}
-.limit-label .limit-num{font-size:1.05em;padding:2px 7px}
-.promo-btn{padding:4px 10px;font-size:0.85em}
-.promo-modal img{max-height:80vh}
-.promo-close{width:36px;height:36px;font-size:1.3em}
-.bottom-section{flex-direction:row;gap:15px}
-.calendar-box{flex:1;min-width:0}
-.calc-box{width:280px}
-.card-calendar{height:500px}
-.calc-cards{flex-direction:column;gap:10px}
-.calc-cards .card-calc{padding:12px}
-.card-calc h4{font-size:0.95em}
-.calc-rate{font-size:0.85em;padding:6px 8px}
-.calc-input-group input{padding:10px;font-size:0.95em}
-}
-@media(min-width:576px) and (max-width:767px){
-body{padding:12px;padding-bottom:50px}
-h2{font-size:1.05em}
-h3{font-size:0.95em;margin:12px 0 8px}
-.header{margin-bottom:2px}
-.tele-icon{width:28px;height:28px}
-.tele-icon svg{width:15px;height:15px}
-.tele-text{font-size:0.85em}
-.wa-icon{width:28px;height:28px}
-.wa-icon svg{width:15px;height:15px}
-.wa-text{font-size:0.85em}
-#jam{font-size:1.8em}
-.jam-social-row{gap:10px}
-.theme-toggle-btn{width:38px;height:38px;font-size:1.3em}
-.container-flex{flex-direction:column;gap:15px}
-.chart-wrap,.usd-wrap{width:100%!important;min-width:0!important;flex:none!important}
-.card-usd,.card-chart{width:100%!important;max-width:100%!important;min-width:0!important}
-.card-usd{height:auto;min-height:300px}
-.card-chart{height:360px}
-.dt-top-controls{flex-direction:row;justify-content:space-between;gap:5px;margin-bottom:8px;padding:5px 0}
-.dataTables_wrapper .dataTables_length{font-size:13px!important}
-.dataTables_wrapper .dataTables_filter{font-size:13px!important}
-.dataTables_wrapper .dataTables_filter input{width:85px!important;font-size:13px!important;padding:4px 6px!important}
-.dataTables_wrapper .dataTables_length select{font-size:13px!important;padding:3px!important}
-.dataTables_wrapper .dataTables_paginate .paginate_button{padding:5px 12px!important;font-size:13px!important}
-#tabel{min-width:950px!important;table-layout:fixed!important}
-#tabel thead th{font-size:14px!important;padding:9px 5px!important;font-weight:bold!important}
-#tabel tbody td{font-size:13px!important;padding:8px 4px!important}
-#tabel thead th.waktu,#tabel tbody td.waktu{width:75px!important;min-width:70px!important;max-width:80px!important}
-#tabel thead th.transaksi,#tabel tbody td.transaksi{width:235px!important;min-width:230px!important;max-width:240px!important;padding:7px 8px!important}
-#tabel thead th.profit,#tabel tbody td.profit{width:125px!important;min-width:120px!important;max-width:130px!important;padding-left:5px!important;padding-right:5px!important}
-.profit-order-btns{display:flex}
-.profit-btn{padding:5px 10px;font-size:12px}
-.chart-header{flex-direction:row;gap:8px}
-.chart-title-wrap h3{font-size:0.95em}
-.spread-label{font-size:0.85em}
-.spread-num{font-size:1em;padding:2px 6px}
-.limit-label{font-size:0.85em}
-.promo-btn{padding:4px 10px;font-size:0.8em}
-.promo-modal img{max-height:75vh}
-.promo-close{width:34px;height:34px;font-size:1.2em;top:-10px;right:-10px}
-.bottom-section{flex-direction:column;gap:18px;margin-bottom:55px}
-.calendar-box{width:100%}
-.calc-box{width:100%}
-.card-calendar{height:480px}
-.calendar-box h3{font-size:1em}
-.calc-cards{flex-direction:row;gap:12px}
-.calc-cards .card-calc{flex:1;padding:12px}
-.calc-box h3{font-size:1em}
-}
-@media(min-width:480px) and (max-width:575px){
-body{padding:10px;padding-bottom:48px}
-h2{font-size:1em}
-h3{font-size:0.92em;margin:12px 0 6px}
-.header{margin-bottom:2px}
-.title-wrap{gap:6px}
-.tele-icon{width:26px;height:26px}
-.tele-icon svg{width:14px;height:14px}
-.tele-text{font-size:0.8em}
-.wa-icon{width:26px;height:26px}
-.wa-icon svg{width:14px;height:14px}
-.wa-text{font-size:0.8em}
-#jam{font-size:1.5em}
-.jam-social-row{gap:8px}
-.theme-toggle-btn{width:36px;height:36px;font-size:1.2em}
-.container-flex{flex-direction:column;gap:12px}
-.chart-wrap,.usd-wrap{width:100%!important;min-width:0!important;flex:none!important}
-.card-usd,.card-chart{width:100%!important;max-width:100%!important;min-width:0!important}
-.card-usd{height:auto;min-height:280px}
-.card-chart{height:340px}
-.card{padding:8px}
-#footerApp{padding:6px 0}
-.marquee-text{font-size:12px}
-.dt-top-controls{gap:4px;margin-bottom:6px}
-.dataTables_wrapper .dataTables_length,.dataTables_wrapper .dataTables_filter{font-size:12px!important}
-.dataTables_wrapper .dataTables_filter input{width:75px!important;font-size:12px!important}
-.dataTables_wrapper .dataTables_length select{font-size:12px!important}
-.dataTables_wrapper .dataTables_paginate .paginate_button{padding:5px 10px!important;font-size:12px!important}
-#priceList{max-height:220px}
-#tabel{min-width:900px!important;table-layout:fixed!important}
-#tabel thead th{font-size:13px!important;padding:8px 4px!important;font-weight:bold!important}
-#tabel tbody td{font-size:12px!important;padding:7px 3px!important}
-#tabel thead th.waktu,#tabel tbody td.waktu{width:72px!important;min-width:68px!important;max-width:76px!important}
-#tabel thead th.transaksi,#tabel tbody td.transaksi{width:220px!important;min-width:215px!important;max-width:225px!important;padding:6px 6px!important}
-#tabel thead th.profit,#tabel tbody td.profit{width:118px!important;min-width:113px!important;max-width:123px!important;padding-left:4px!important;padding-right:4px!important}
-.profit-order-btns{display:flex}
-.profit-btn{padding:5px 9px;font-size:11px}
-.chart-title-wrap h3{font-size:0.9em}
-.spread-label{font-size:0.82em}
-.spread-num{font-size:0.95em;padding:1px 5px}
-.limit-label{font-size:0.82em}
-.limit-label .limit-num{font-size:1em;padding:1px 6px}
-.promo-btn{padding:3px 8px;font-size:0.75em;border-radius:15px}
-.promo-modal img{max-height:70vh}
-.promo-close{width:32px;height:32px;font-size:1.1em;top:-8px;right:-8px}
-.bottom-section{flex-direction:column;gap:15px;margin-bottom:50px}
-.calendar-box{width:100%}
-.calc-box{width:100%}
-.card-calendar{height:450px}
-.calendar-box h3{font-size:0.95em}
-.calc-cards{flex-direction:row;gap:10px}
-.calc-cards .card-calc{flex:1;padding:10px}
-.card-calc h4{font-size:0.9em;margin-bottom:8px}
-.calc-rate{font-size:0.8em;padding:6px 8px;margin-bottom:10px}
-.calc-input-group{margin-bottom:10px}
-.calc-input-group label{font-size:0.8em}
-.calc-input-group input{padding:10px;font-size:0.95em}
-.calc-box h3{font-size:1em}
-}
-@media(max-width:479px){
-body{padding:8px;padding-bottom:45px}
-h2{font-size:0.9em}
-h3{font-size:0.88em;margin:10px 0 6px}
-.header{margin-bottom:1px}
-.title-wrap{gap:5px}
-.tele-icon{width:24px;height:24px}
-.tele-icon svg{width:13px;height:13px}
-.tele-text{font-size:0.75em}
-.wa-icon{width:24px;height:24px}
-.wa-icon svg{width:13px;height:13px}
-.wa-text{font-size:0.75em}
-#jam{font-size:1.3em}
-.jam-social-row{gap:6px}
-.theme-toggle-btn{width:34px;height:34px;font-size:1.1em}
-.container-flex{flex-direction:column;gap:10px}
-.chart-wrap,.usd-wrap{width:100%!important;min-width:0!important;flex:none!important}
-.card-usd,.card-chart{width:100%!important;max-width:100%!important;min-width:0!important}
-.card-usd{height:auto;min-height:260px}
-.card-chart{height:300px}
-.card{padding:6px}
-#footerApp{padding:5px 0}
-.marquee-text{font-size:11px}
-.dt-top-controls{gap:3px;margin-bottom:5px}
-.dataTables_wrapper .dataTables_length,.dataTables_wrapper .dataTables_filter{font-size:11px!important}
-.dataTables_wrapper .dataTables_filter input{width:60px!important;font-size:11px!important}
-.dataTables_wrapper .dataTables_length select{font-size:11px!important}
-.dataTables_wrapper .dataTables_paginate .paginate_button{padding:4px 8px!important;font-size:11px!important}
-#priceList{max-height:180px}
-#tabel{min-width:850px!important;table-layout:fixed!important}
-#tabel thead th{font-size:12px!important;padding:7px 3px!important;font-weight:bold!important}
-#tabel tbody td{font-size:11px!important;padding:6px 3px!important}
-#tabel thead th.waktu,#tabel tbody td.waktu{width:68px!important;min-width:64px!important;max-width:72px!important;padding-left:2px!important;padding-right:2px!important}
-#tabel thead th.transaksi,#tabel tbody td.transaksi{width:210px!important;min-width:205px!important;max-width:215px!important;padding:5px 5px!important}
-#tabel thead th.profit,#tabel tbody td.profit{width:110px!important;min-width:105px!important;max-width:115px!important;padding-left:3px!important;padding-right:3px!important}
-.profit-order-btns{display:flex}
-.profit-btn{padding:4px 7px;font-size:10px}
-.chart-title-wrap h3{font-size:0.85em}
-.spread-label{font-size:0.78em}
-.spread-num{font-size:0.9em;padding:1px 4px}
-.limit-label{font-size:0.78em}
-.limit-label .limit-num{font-size:0.95em;padding:1px 5px}
-.promo-btn{padding:3px 7px;font-size:0.7em;border-radius:12px;letter-spacing:0.5px}
-.promo-modal{max-width:98%;max-height:98%}
-.promo-modal img{max-height:65vh;border-radius:8px}
-.promo-close{width:30px;height:30px;font-size:1em;top:-8px;right:-8px;border-width:2px}
-.bottom-section{flex-direction:column;gap:15px;margin-bottom:48px}
-.calendar-box{width:100%}
-.calc-box{width:100%}
-.card-calendar{height:420px}
-.calendar-box h3{font-size:0.9em}
-.calc-cards{flex-direction:column;gap:10px}
-.calc-cards .card-calc{width:100%;padding:10px}
-.card-calc h4{font-size:0.88em;gap:4px;margin-bottom:8px}
-.calc-rate{font-size:0.78em;padding:6px 8px;margin-bottom:8px}
-.calc-input-group{margin-bottom:8px}
-.calc-input-group label{font-size:0.78em;margin-bottom:4px}
-.calc-input-group input{padding:10px;font-size:0.9em;border-radius:5px}
-.calc-box h3{font-size:0.95em}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Hari Raya Idul Fitri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@300;400;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --gold-light: #ffea75;
+            --gold-dark: #b8860b;
+            --emerald-dark: #01170b;
+            --emerald-light: #04381d;
+            --glass-bg: rgba(4, 56, 29, 0.5);
+            --glass-border: rgba(255, 215, 0, 0.5);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--emerald-dark);
+            overscroll-behavior: none;
+        }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: 
+                radial-gradient(circle at center, rgba(1, 23, 11, 0.6) 0%, rgba(1, 10, 5, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            filter: contrast(1.2) brightness(1.1);
+            will-change: transform;
+        }
+        .light-beam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(ellipse at bottom, rgba(0, 255, 128, 0.15) 0%, transparent 70%);
+            transform: translateX(-50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+            box-shadow: 0 0 5px #ffffff;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+            will-change: transform;
+        }
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .ornament-container {
+            position: absolute;
+            top: -20px;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: top center;
+            animation: swing 6s cubic-bezier(0.34, 0.02, 0.39, 0.99) infinite alternate;
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+        .ornament-chain {
+            width: 2px;
+            background: linear-gradient(to bottom, #b38728, #fbf5b7, #b38728);
+            box-shadow: 0 0 8px var(--gold);
+        }
+        .ornament-star {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #FFD700, #b8860b);
+            position: relative;
+            transform: rotate(22.5deg);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin-top: -5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #fff;
+        }
+        .ornament-star::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FFD700, #b8860b);
+            transform: rotate(45deg);
+            border: 2px solid #fff;
+            z-index: -1;
+        }
+        .ornament-star::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #01170b;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: inset 0 0 5px #000;
+        }
+        .ornament-crescent {
+            width: 50px;
+            height: 50px;
+            fill: url(#goldGradient);
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.8));
+            margin-top: 15px;
+            transform: rotate(-15deg);
+        }
+        .o1 { left: 15%; animation-delay: 0s; }
+        .o1 .ornament-chain { height: 150px; }
+        .o2 { right: 15%; animation-delay: 1s; }
+        .o2 .ornament-chain { height: 200px; }
+        .ketupat-wrapper {
+            position: absolute;
+            top: -20px;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: top center;
+            animation: swing 5.5s cubic-bezier(0.34, 0.02, 0.39, 0.99) infinite alternate;
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+        .ketupat-rope {
+            width: 4px;
+            background: linear-gradient(to bottom, #5d4e37, #8b7355, #5d4e37, #8b7355, #5d4e37);
+            border-radius: 2px;
+            box-shadow: 1px 0 2px rgba(0,0,0,0.3);
+        }
+        .ketupat-svg {
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6));
+            margin-top: -5px;
+        }
+        .k1 { left: 28%; animation-delay: 0.3s; }
+        .k1 .ketupat-rope { height: 220px; }
+        .k1 .ketupat-svg { width: 90px; height: 110px; }
+        .k2 { right: 26%; animation-delay: 1.8s; }
+        .k2 .ketupat-rope { height: 130px; }
+        .k2 .ketupat-svg { width: 70px; height: 85px; }
+        .k3 { left: 8%; animation-delay: 0.8s; }
+        .k3 .ketupat-rope { height: 320px; }
+        .k3 .ketupat-svg { width: 110px; height: 135px; }
+        .k4 { right: 6%; animation-delay: 1.4s; top: 10%; }
+        .k4 .ketupat-rope { height: 180px; }
+        .k4 .ketupat-svg { width: 85px; height: 105px; }
+        .glass-card {
+            background: linear-gradient(145deg, rgba(4, 56, 29, 0.6), rgba(1, 23, 11, 0.7));
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 3px solid transparent;
+            border-image: linear-gradient(135deg, var(--gold), var(--gold-dark), var(--gold)) 1;
+            border-radius: 30px;
+            padding: 40px 60px;
+            text-align: center;
+            box-shadow: 
+                0 30px 80px rgba(0,0,0,0.8),
+                0 0 60px rgba(255,215,0,0.15),
+                inset 0 0 60px rgba(255,215,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: cardEntrance 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            max-width: 580px;
+            position: relative;
+            overflow: visible;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 22px;
+            pointer-events: none;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.1),
+                transparent
+            );
+            transform: rotate(25deg);
+            animation: shimmer 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            pointer-events: none;
+        }
+        .corner-ornament {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 0.8;
+            will-change: transform;
+        }
+        .corner-ornament svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--gold);
+            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+        }
+        .corner-tl { top: -5px; left: -5px; }
+        .corner-tr { top: -5px; right: -5px; transform: rotate(90deg); }
+        .corner-bl { bottom: -5px; left: -5px; transform: rotate(-90deg); }
+        .corner-br { bottom: -5px; right: -5px; transform: rotate(180deg); }
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 1.7rem;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255,215,0,0.5);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            animation: glow 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+            will-change: text-shadow;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: var(--gold-light);
+            margin-bottom: -5px;
+            text-shadow: 0 0 15px rgba(255, 234, 117, 0.6);
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, #FFD700, #fff8dc, #FFD700, #b8860b);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: goldShift 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            text-shadow: none;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
+            line-height: 1.1;
+            margin-bottom: 5px;
+            will-change: background-position;
+        }
+        .date {
+            font-size: 1rem;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px auto;
+        }
+        .divider-line {
+            width: 70px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .divider-diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            box-shadow: 0 0 15px rgba(255,215,0,0.6);
+        }
+        .message {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+        .maaf-section {
+            margin: 25px 0;
+            padding: 20px 0;
+            position: relative;
+        }
+        .maaf-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+        .maaf-ornament-line {
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold));
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .maaf-ornament-line:last-child {
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+        .maaf-ornament-star {
+            font-size: 1.1rem;
+            color: var(--gold);
+            animation: pulse 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+            will-change: transform, opacity;
+        }
+        .maaf-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--gold), #fff8dc, var(--gold));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: goldShift 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            text-shadow: none;
+            filter: drop-shadow(0 5px 15px rgba(255,215,0,0.3));
+            margin-bottom: 8px;
+            will-change: background-position;
+            letter-spacing: 1px;
+        }
+        .maaf-subtitle {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+        .cta-link {
+            text-decoration: none;
+            display: inline-block;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #FFD700, #d4af37, #b8860b);
+            color: #1a1001;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 
+                0 10px 30px rgba(255, 215, 0, 0.4),
+                0 0 0 2px rgba(255,255,255,0.2),
+                inset 0 2px 5px rgba(255,255,255,0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            transform-style: preserve-3d;
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 20px 50px rgba(255, 215, 0, 0.6),
+                0 0 0 3px rgba(255,255,255,0.3),
+                inset 0 2px 5px rgba(255,255,255,0.8);
+            color: #000;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.7) translateZ(0); }
+            100% { opacity: 1; transform: scale(1.1) translateZ(0); box-shadow: 0 0 15px #ffffff; }
+        }
+        @keyframes swing {
+            0% { transform: rotate(3deg) translateZ(0); }
+            100% { transform: rotate(-3deg) translateZ(0); }
+        }
+        @keyframes cardEntrance {
+            0% { opacity: 0; transform: translateY(40px) scale(0.95) translateZ(0); }
+            100% { opacity: 1; transform: translateY(0) scale(1) translateZ(0); }
+        }
+        @keyframes shimmer {
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { left: 150%; opacity: 0; }
+        }
+        @keyframes goldShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 15px rgba(255,215,0,0.4), 0 0 25px rgba(255,215,0,0.2); }
+            100% { text-shadow: 0 0 35px rgba(255,215,0,0.7), 0 0 50px rgba(255,215,0,0.4); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) translateZ(0); opacity: 0.9; }
+            50% { transform: scale(1.15) translateZ(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .subtitle { font-size: 0.9rem; letter-spacing: 3px; }
+            .glass-card { padding: 40px 25px; width: 92%; max-width: 92%; }
+            .message { font-size: 0.9rem; line-height: 1.8; }
+            .cta-button { padding: 14px 35px; font-size: 0.9rem; }
+            .k3, .o1 { display: none; }
+            .k1 .ketupat-rope { height: 120px; }
+            .k1 .ketupat-svg { width: 70px; height: 85px; }
+            .o2 .ornament-chain { height: 100px; }
+            .bismillah { font-size: 1.5rem; }
+            .maaf-text { font-size: 1.8rem; }
+            .corner-ornament { width: 40px; height: 40px; }
+            .divider-line { width: 50px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="header">
-<div class="title-wrap">
-<h2>Harga Emas Treasury  ➺ </h2>
-<a href="https://t.me/+FLtJjyjVV8xlM2E1" target="_blank" class="tele-link" title="Join Telegram"><span class="tele-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></span><span class="tele-text">Telegram</span></a>
-<button class="promo-btn" id="promoBtn" onclick="openPromo()">&#127873; Promo</button>
-</div>
-<button class="theme-toggle-btn" id="themeBtn" onclick="toggleTheme()" title="Ganti Tema">&#127769;</button>
-</div>
-<div class="jam-social-row">
-<div id="jam"></div>
-<a href="https://chat.whatsapp.com/LD4zZN9coDj4h4g8AMnYTR?mode=gi_t" target="_blank" class="wa-link" title="WhatsApp"><span class="wa-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span><span class="wa-text">WhatsApp</span></a>
-</div>
-<div class="tbl-wrap">
-<table id="tabel" class="display">
-<thead>
-<tr>
-<th class="waktu">Waktu</th>
-<th class="transaksi">Data Transaksi</th>
-<th class="profit" id="thP1">Est.cuan 10JT &#10138; gr</th>
-<th class="profit" id="thP2">Est.cuan 30JT &#10138; gr</th>
-<th class="profit" id="thP3">Est.cuan 40JT &#10138; gr</th>
-<th class="profit" id="thP4">Est.cuan 50JT &#10138; gr</th>
-<th class="profit" id="thP5">Est.cuan 60JT &#10138; gr</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-</div>
-<div class="container-flex">
-<div class="chart-wrap">
-<div class="chart-header">
-<div class="chart-title-wrap">
-<h3>Chart Harga XAU/USD</h3>
-<span class="spread-label">Spread:<span class="spread-num" id="spreadValue">-</span></span>
-</div>
-<span class="limit-label">Limit Bulan ini:<span class="limit-num" id="limitBulan">88888</span></span>
-</div>
-<div class="card card-chart">
-<div class="tradingview-wrapper" id="tradingview_chart"></div>
-</div>
-</div>
-<div class="usd-wrap">
-<h3 style="margin-top:0">Harga USD/IDR Google Finance</h3>
-<div class="card card-usd">
-<p>Harga saat ini: <span id="currentPrice" class="loading-text">Memuat data...</span></p>
-<h4>Harga Terakhir:</h4>
-<ul id="priceList"><li class="loading-text">Menunggu data...</li></ul>
-</div>
-</div>
-</div>
-<div class="bottom-section">
-<div class="calendar-box">
-<h3>&#128197; Kalender Ekonomi</h3>
-<div class="card card-calendar">
-<div class="calendar-scroll-wrapper">
-<iframe src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&category=_employment,_economicActivity,_inflation,_credit,_centralBanks,_confidenceIndex,_balance,_Bonds&importance=3&features=datepicker,timezone,timeselector,filters&countries=5,25,37,48,4,35,17,22,12,72&calType=week&timeZone=27&lang=54" allowtransparency="true" marginwidth="0" marginheight="0"></iframe>
-</div>
-<div class="calendar-credit">
-<span>Kalender Ekonomi Real Time dipersembahkan oleh <a href="https://id.investing.com" rel="nofollow" target="_blank">Investing.com Indonesia</a>.</span>
-</div>
-</div>
-</div>
-<div class="calc-box">
-<h3>&#129518; Kalkulator Emas</h3>
-<div class="calc-cards">
-<div class="card-calc">
-<h4>&#128176; Hitung Beli</h4>
-<p class="calc-rate">Harga: <span id="buyRateDisplay">-</span>/gr</p>
-<div class="calc-input-group">
-<label>Masukkan Rupiah (IDR)</label>
-<input type="text" id="buyIdr" inputmode="numeric" placeholder="Contoh: 88.000.000">
-</div>
-<div class="calc-input-group">
-<label>Gram &#8646;</label>
-<input type="text" id="buyGram" inputmode="decimal" placeholder="isi gram, contoh: 0.8888">
-</div>
-</div>
-<div class="card-calc">
-<h4>&#128184; Hitung Jual</h4>
-<p class="calc-rate">Harga: <span id="sellRateDisplay">-</span>/gr</p>
-<div class="calc-input-group">
-<label>Masukkan Gram</label>
-<input type="text" id="sellGram" inputmode="decimal" placeholder="Contoh: 0.8888">
-</div>
-<div class="calc-input-group">
-<label>Rupiah (IDR) &#8646;</label>
-<input type="text" id="sellIdr" inputmode="numeric" placeholder="isi nominal, contoh: 88.000.000">
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="promo-overlay" id="promoOverlay">
-<div class="promo-modal">
-<button class="promo-close" id="promoClose">&times;</button>
-<img src="https://i.ibb.co.com/9kJYRrxD/Screenshot-2026-03-01-04-00-09-824-com-treasury-apps.jpg" alt="Promo Treasury">
-</div>
-</div>
-<footer id="footerApp"><span class="marquee-text">&copy;2026 ~ahmadkholil~</span></footer>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></` + `script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></` + `script>
-<script src="https://s3.tradingview.com/tv.js"></` + `script>
-<script>
-(function(){
-var isDark=localStorage.getItem('theme')==='dark';
-var lastTopRowId='';
-var messageQueue=[];
-var isProcessing=false;
-var latestHistory=[];
-var isFirstRender=true;
-var savedPriority=localStorage.getItem('profitPriority');
-var profitPriority=(savedPriority&&['jt10','jt30','jt40','jt50','jt60'].indexOf(savedPriority)!==-1)?savedPriority:'jt10';
-var headerLabels={'jt10':'Est.cuan 10JT \\u27BA gr','jt30':'Est.cuan 30JT \\u27BA gr','jt40':'Est.cuan 40JT \\u27BA gr','jt50':'Est.cuan 50JT \\u27BA gr','jt60':'Est.cuan 60JT \\u27BA gr'};
-var blinkTimeout=null;
-var latestBuyRate=0;
-var latestSellRate=0;
-var isCalcUpdating=false;
-var promoOverlay=document.getElementById('promoOverlay');
-var promoClose=document.getElementById('promoClose');
-window.openPromo=function(){
-promoOverlay.classList.add('active');
-document.body.style.overflow='hidden';
-};
-window.closePromo=function(){
-promoOverlay.classList.remove('active');
-document.body.style.overflow='';
-};
-promoOverlay.addEventListener('click',function(e){
-if(e.target===promoOverlay){
-closePromo();
-}
-});
-promoClose.addEventListener('click',function(e){
-e.stopPropagation();
-closePromo();
-});
-document.addEventListener('keydown',function(e){
-if(e.key==='Escape'&&promoOverlay.classList.contains('active')){
-closePromo();
-}
-});
-function parseRupiahInput(str){
-if(!str)return 0;
-return parseInt(str.replace(/\\./g,''),10)||0;
-}
-function formatRupiahCalc(n){
-if(isNaN(n)||n===0)return'';
-return Math.round(n).toLocaleString('id-ID').replace(/,/g,'.');
-}
-function formatRupiahLive(str){
-var num=str.replace(/\\D/g,'');
-if(!num)return'';
-return parseInt(num,10).toLocaleString('id-ID').replace(/,/g,'.');
-}
-function parseGramInput(str){
-if(!str)return 0;
-return parseFloat(str.replace(',','.'))||0;
-}
-function formatGramCalc(n){
-if(isNaN(n)||n===0)return'';
-return n.toFixed(4).replace('.',',');
-}
-function swapNumFormat(s){
-if(!s)return s;
-return s.replace(/,/g,'#T#').replace(/\\./g,',').replace(/#T#/g,'.');
-}
-function updateCalcRates(){
-document.getElementById('buyRateDisplay').textContent=latestBuyRate?formatRupiahCalc(latestBuyRate):'-';
-document.getElementById('sellRateDisplay').textContent=latestSellRate?formatRupiahCalc(latestSellRate):'-';
-}
-function updateSpreadDisplay(){
-var spreadEl=document.getElementById('spreadValue');
-if(latestBuyRate&&latestSellRate){
-var spread=((latestSellRate-latestBuyRate)/latestBuyRate*100).toFixed(2);
-var prefix=parseFloat(spread)>=0?'+':'';
-spreadEl.textContent=prefix+spread+'%';
-}else{
-spreadEl.textContent='-';
-}
-}
-function setupCalcListeners(){
-var buyIdr=document.getElementById('buyIdr');
-var buyGram=document.getElementById('buyGram');
-var sellIdr=document.getElementById('sellIdr');
-var sellGram=document.getElementById('sellGram');
-function onlyNumbers(e){
-var key=e.key;
-if(e.ctrlKey||e.metaKey)return;
-if(key==='Backspace'||key==='Delete'||key==='ArrowLeft'||key==='ArrowRight'||key==='Tab')return;
-if(!/^[0-9]$/.test(key)){e.preventDefault();}
-}
-function onlyNumbersAndComma(e){
-var key=e.key;
-var val=this.value;
-if(e.ctrlKey||e.metaKey)return;
-if(key==='Backspace'||key==='Delete'||key==='ArrowLeft'||key==='ArrowRight'||key==='Tab')return;
-if(key===','||key==='.'){
-if(val.indexOf(',')!==-1||val.indexOf('.')!==-1){e.preventDefault();return;}
-return;
-}
-if(!/^[0-9]$/.test(key)){e.preventDefault();}
-}
-buyIdr.addEventListener('keypress',onlyNumbers);
-sellIdr.addEventListener('keypress',onlyNumbers);
-buyGram.addEventListener('keypress',onlyNumbersAndComma);
-sellGram.addEventListener('keypress',onlyNumbersAndComma);
-buyIdr.addEventListener('paste',function(e){
-e.preventDefault();
-var text=(e.clipboardData||window.clipboardData).getData('text');
-var nums=text.replace(/\\D/g,'');
-if(nums){document.execCommand('insertText',false,nums);}
-});
-sellIdr.addEventListener('paste',function(e){
-e.preventDefault();
-var text=(e.clipboardData||window.clipboardData).getData('text');
-var nums=text.replace(/\\D/g,'');
-if(nums){document.execCommand('insertText',false,nums);}
-});
-buyGram.addEventListener('paste',function(e){
-e.preventDefault();
-var text=(e.clipboardData||window.clipboardData).getData('text');
-var clean=text.replace(/[^0-9,.]/g,'').replace(/\\./g,',');
-var parts=clean.split(',');
-var result=parts[0]+(parts.length>1?','+parts.slice(1).join(''):'');
-if(result){document.execCommand('insertText',false,result);}
-});
-sellGram.addEventListener('paste',function(e){
-e.preventDefault();
-var text=(e.clipboardData||window.clipboardData).getData('text');
-var clean=text.replace(/[^0-9,.]/g,'').replace(/\\./g,',');
-var parts=clean.split(',');
-var result=parts[0]+(parts.length>1?','+parts.slice(1).join(''):'');
-if(result){document.execCommand('insertText',false,result);}
-});
-buyIdr.addEventListener('input',function(){
-if(isCalcUpdating)return;
-isCalcUpdating=true;
-var cursorPos=this.selectionStart;
-var oldLen=this.value.length;
-var formatted=formatRupiahLive(this.value);
-this.value=formatted;
-var newLen=formatted.length;
-var newPos=cursorPos+(newLen-oldLen);
-if(newPos<0)newPos=0;
-if(newPos>newLen)newPos=newLen;
-this.setSelectionRange(newPos,newPos);
-if(latestBuyRate){
-var val=parseRupiahInput(formatted);
-var gram=val/latestBuyRate;
-buyGram.value=gram>0?formatGramCalc(gram):'';
-}
-isCalcUpdating=false;
-});
-buyGram.addEventListener('input',function(){
-if(isCalcUpdating||!latestBuyRate)return;
-isCalcUpdating=true;
-var gram=parseGramInput(this.value);
-var idr=gram*latestBuyRate;
-buyIdr.value=idr>0?formatRupiahCalc(idr):'';
-isCalcUpdating=false;
-});
-sellGram.addEventListener('input',function(){
-if(isCalcUpdating||!latestSellRate)return;
-isCalcUpdating=true;
-var gram=parseGramInput(this.value);
-var idr=gram*latestSellRate;
-sellIdr.value=idr>0?formatRupiahCalc(idr):'';
-isCalcUpdating=false;
-});
-sellIdr.addEventListener('input',function(){
-if(isCalcUpdating)return;
-isCalcUpdating=true;
-var cursorPos=this.selectionStart;
-var oldLen=this.value.length;
-var formatted=formatRupiahLive(this.value);
-this.value=formatted;
-var newLen=formatted.length;
-var newPos=cursorPos+(newLen-oldLen);
-if(newPos<0)newPos=0;
-if(newPos>newLen)newPos=newLen;
-this.setSelectionRange(newPos,newPos);
-if(latestSellRate){
-var val=parseRupiahInput(formatted);
-var gram=val/latestSellRate;
-sellGram.value=gram>0?formatGramCalc(gram):'';
-}
-isCalcUpdating=false;
-});
-}
-setupCalcListeners();
-function getOrderedProfitKeys(){
-var all=['jt10','jt30','jt40','jt50','jt60'];
-var result=[profitPriority];
-all.forEach(function(k){if(k!==profitPriority)result.push(k);});
-return result;
-}
-function updateTableHeaders(){
-var keys=getOrderedProfitKeys();
-$('#thP1').text(headerLabels[keys[0]]);
-$('#thP2').text(headerLabels[keys[1]]);
-$('#thP3').text(headerLabels[keys[2]]);
-$('#thP4').text(headerLabels[keys[3]]);
-$('#thP5').text(headerLabels[keys[4]]);
-}
-function createTradingViewWidget(){
-var wrapper=document.getElementById('tradingview_chart');
-var h=wrapper.offsetHeight||370;
-new TradingView.widget({
-width:"100%",height:h,symbol:"FOREXCOM:XAUUSD",interval:"15",
-timezone:"Asia/Jakarta",theme:isDark?'dark':'light',style:"1",
-locale:"id",toolbar_bg:"#f1f3f6",enable_publishing:false,
-hide_top_toolbar:false,save_image:false,container_id:"tradingview_chart"
-});
-}
-var table=$('#tabel').DataTable({
-pageLength:4,
-lengthMenu:[4,8,18,48,88,888,1441],
-order:[],
-deferRender:true,
-dom:'<"dt-top-controls"lf>t<"bottom"p><"clear">',
-columns:[
-{data:"waktu",className:"waktu"},
-{data:"transaction",className:"transaksi"},
-{data:"p1",className:"profit"},
-{data:"p2",className:"profit"},
-{data:"p3",className:"profit"},
-{data:"p4",className:"profit"},
-{data:"p5",className:"profit"}
-],
-language:{
-emptyTable:"Menunggu data harga emas dari Treasury...",
-zeroRecords:"Tidak ada data yang cocok",
-lengthMenu:"Lihat _MENU_",
-search:"Cari:",
-paginate:{first:"\\u00ab",previous:"Kembali",next:"Lanjut",last:"\\u00bb"}
-},
-initComplete:function(){
-var filterDiv=$('.dataTables_filter');
-var activeVal=profitPriority.replace('jt','');
-var btnsHtml='<div class="profit-order-btns" id="profitOrderBtns">';
-['10','30','40','50','60'].forEach(function(v){
-btnsHtml+='<button class="profit-btn'+(activeVal===v?' active':'')+'" data-val="'+v+'">'+v+'</button>';
-});
-btnsHtml+='</div>';
-var profitBtns=$(btnsHtml);
-filterDiv.wrap('<div class="filter-wrap"></div>');
-filterDiv.before(profitBtns);
-$('#profitOrderBtns').on('click','.profit-btn',function(){
-var val=$(this).data('val');
-profitPriority='jt'+val;
-localStorage.setItem('profitPriority',profitPriority);
-$('#profitOrderBtns .profit-btn').removeClass('active');
-$(this).addClass('active');
-if(latestHistory.length){renderTable();}
-});
-updateTableHeaders();
-}
-});
-function getTopRowId(h){
-if(!h||!h.length)return'';
-var sorted=h.slice().sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
-return sorted[0].created_at+'|'+sorted[0].buying_rate;
-}
-function triggerBlinkEffect(){
-if(blinkTimeout){clearTimeout(blinkTimeout);}
-var firstRow=$('#tabel tbody tr:first-child');
-if(!firstRow.length)return;
-firstRow.removeClass('blink-row');
-void firstRow[0].offsetWidth;
-firstRow.addClass('blink-row');
-blinkTimeout=setTimeout(function(){firstRow.removeClass('blink-row');blinkTimeout=null;},2000);
-}
-function renderTable(){
-var h=latestHistory;
-if(!h||!h.length)return;
-var newTopRowId=getTopRowId(h);
-var isNewData=newTopRowId!==lastTopRowId;
-if(isNewData){lastTopRowId=newTopRowId;}
-h.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
-var keys=getOrderedProfitKeys();
-updateTableHeaders();
-var arr=h.map(function(d){
-return{
-waktu:d.waktu_display,
-transaction:'Beli: '+d.buying_rate+' Jual: '+d.selling_rate+''+d.diff_display,
-p1:d[keys[0]],
-p2:d[keys[1]],
-p3:d[keys[2]],
-p4:d[keys[3]],
-p5:d[keys[4]]
-};
-});
-table.clear().rows.add(arr).draw(false);
-table.page('first').draw(false);
-if(isNewData&&!isFirstRender){setTimeout(function(){triggerBlinkEffect();},50);}
-if(isFirstRender){isFirstRender=false;}
-}
-function updateTable(h){
-if(!h||!h.length)return;
-latestHistory=h;
-h.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
-if(h.length>0&&h[0].buying_rate_raw&&h[0].selling_rate_raw){
-latestBuyRate=h[0].buying_rate_raw;
-latestSellRate=h[0].selling_rate_raw;
-updateCalcRates();
-updateSpreadDisplay();
-}
-renderTable();
-}
-function updateUsd(h){
-var c=document.getElementById("currentPrice"),p=document.getElementById("priceList");
-if(!h||!h.length){
-c.textContent="Menunggu data...";
-c.className="loading-text";
-p.innerHTML='<li class="loading-text">Menunggu data...</li>';
-return;
-}
-c.className="";
-function prs(s){return parseFloat(s.trim().replace(/\\./g,'').replace(',','.'));}
-var r=h.slice().reverse();
-var icon="\\u2796";
-if(r.length>1){var n=prs(r[0].price),pr2=prs(r[1].price);icon=n>pr2?"\\uD83D\\uDE80":n<pr2?"\\uD83D\\uDD3B":"\\u2796";}
-c.innerHTML=swapNumFormat(r[0].price)+" "+icon;
-var html='';
-for(var i=0;i<r.length;i++){
-var ic="\\u2796";
-if(i===0&&r.length>1){var nn=prs(r[0].price),pp=prs(r[1].price);ic=nn>pp?"\\uD83D\\uDFE2":nn<pp?"\\uD83D\\uDD34":"\\u2796";}
-else if(i<r.length-1){var nn2=prs(r[i].price),nx=prs(r[i+1].price);ic=nn2>nx?"\\uD83D\\uDFE2":nn2<nx?"\\uD83D\\uDD34":"\\u2796";}
-else if(r.length>1){var nn3=prs(r[i].price),pp2=prs(r[i-1].price);ic=nn3<pp2?"\\uD83D\\uDD34":nn3>pp2?"\\uD83D\\uDFE2":"\\u2796";}
-html+='<li>'+swapNumFormat(r[i].price)+' <span class="time">('+r[i].time+')</span> '+ic+'</li>';
-}
-p.innerHTML=html;
-}
-function updateLimit(val){document.getElementById('limitBulan').textContent=val;}
-function processMessage(d){
-if(d.ping||d.pong)return;
-if(d.history)updateTable(d.history);
-if(d.usd_idr_history)updateUsd(d.usd_idr_history);
-if(d.limit_bulan!==undefined)updateLimit(d.limit_bulan);
-}
-function processQueue(){
-if(isProcessing||!messageQueue.length)return;
-isProcessing=true;
-var msg=messageQueue.shift();
-try{processMessage(msg);}catch(e){}
-isProcessing=false;
-if(messageQueue.length)requestAnimationFrame(processQueue);
-}
-var ws,ra=0,pingInterval;
-function conn(){
-var pr=location.protocol==="https:"?"wss:":"ws:";
-ws=new WebSocket(pr+"//"+location.host+"/ws");
-ws.onopen=function(){
-ra=0;
-if(pingInterval)clearInterval(pingInterval);
-pingInterval=setInterval(function(){
-if(ws&&ws.readyState===1)try{ws.send('ping');}catch(e){}
-},25000);
-};
-ws.onmessage=function(e){
-try{
-var d=JSON.parse(e.data);
-messageQueue.push(d);
-requestAnimationFrame(processQueue);
-}catch(x){}
-};
-ws.onclose=function(){
-if(pingInterval)clearInterval(pingInterval);
-ra++;
-setTimeout(conn,Math.min(1000*Math.pow(1.3,ra-1),15000));
-};
-ws.onerror=function(){};
-}
-conn();
-function updateJam(){
-var n=new Date();
-var days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-var hari=days[n.getDay()];
-var jam=n.toLocaleTimeString('id-ID',{hour12:false});
-document.getElementById("jam").textContent=hari+", "+jam+" WIB";
-}
-setInterval(updateJam,1000);
-updateJam();
-window.toggleTheme=function(){
-var b=document.body,btn=document.getElementById('themeBtn');
-b.classList.toggle('dark-mode');
-isDark=b.classList.contains('dark-mode');
-btn.innerHTML=isDark?"&#9728;&#65039;":"&#127769;";
-localStorage.setItem('theme',isDark?'dark':'light');
-document.getElementById('tradingview_chart').innerHTML='';
-createTradingViewWidget();
-};
-if(localStorage.getItem('theme')==='dark'){
-document.body.classList.add('dark-mode');
-document.getElementById('themeBtn').innerHTML="&#9728;&#65039;";
-}
-setTimeout(createTradingViewWidget,100);
-})();
-</` + `script>
+
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD700" />
+                <stop offset="50%" stop-color="#d4af37" />
+                <stop offset="100%" stop-color="#b8860b" />
+            </linearGradient>
+            <linearGradient id="janurBase" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a8b060" />
+                <stop offset="30%" stop-color="#8a9a48" />
+                <stop offset="60%" stop-color="#7a8a3a" />
+                <stop offset="100%" stop-color="#6b7a2e" />
+            </linearGradient>
+            <linearGradient id="janurLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#c4d070" />
+                <stop offset="50%" stop-color="#b0c058" />
+                <stop offset="100%" stop-color="#98a848" />
+            </linearGradient>
+            <linearGradient id="janurMid" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#98a848" />
+                <stop offset="50%" stop-color="#889838" />
+                <stop offset="100%" stop-color="#788828" />
+            </linearGradient>
+            <linearGradient id="janurDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#788828" />
+                <stop offset="50%" stop-color="#687818" />
+                <stop offset="100%" stop-color="#586810" />
+            </linearGradient>
+            <linearGradient id="janurDry" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#c9b896" />
+                <stop offset="30%" stop-color="#b5a882" />
+                <stop offset="60%" stop-color="#a09570" />
+                <stop offset="100%" stop-color="#8a8060" />
+            </linearGradient>
+            <linearGradient id="janurTail" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#889838" />
+                <stop offset="50%" stop-color="#708020" />
+                <stop offset="100%" stop-color="#586810" />
+            </linearGradient>
+            <symbol id="cornerOrnament" viewBox="0 0 100 100">
+                <path d="M0,0 L40,0 C30,0 20,10 20,20 L20,20 C20,10 10,0 0,0 Z" />
+                <path d="M0,0 L0,40 C0,30 10,20 20,20 L20,20 C10,20 0,10 0,0 Z" />
+                <circle cx="25" cy="25" r="5" />
+                <path d="M15,35 Q25,25 35,35 Q25,45 15,35 Z" opacity="0.7" />
+                <path d="M35,15 Q25,25 35,35 Q45,25 35,15 Z" opacity="0.7" />
+            </symbol>
+            <symbol id="ketupat" viewBox="0 0 100 130">
+                <polygon points="50,8 92,50 50,92 8,50" fill="url(#janurBase)" stroke="#5a6a20" stroke-width="1.5"/>
+                <g stroke="url(#janurLight)" stroke-width="4.5" fill="none" stroke-linecap="round">
+                    <line x1="18" y1="38" x2="38" y2="18"/>
+                    <line x1="22" y1="54" x2="54" y2="22"/>
+                    <line x1="28" y1="68" x2="68" y2="28"/>
+                    <line x1="38" y1="78" x2="78" y2="38"/>
+                    <line x1="54" y1="78" x2="78" y2="54"/>
+                    <line x1="68" y1="72" x2="72" y2="68"/>
+                </g>
+                <g stroke="url(#janurMid)" stroke-width="4.5" fill="none" stroke-linecap="round">
+                    <line x1="82" y1="38" x2="62" y2="18"/>
+                    <line x1="78" y1="54" x2="46" y2="22"/>
+                    <line x1="72" y1="68" x2="32" y2="28"/>
+                    <line x1="62" y1="78" x2="22" y2="38"/>
+                    <line x1="46" y1="78" x2="22" y2="54"/>
+                    <line x1="32" y1="72" x2="28" y2="68"/>
+                </g>
+                <g stroke="url(#janurDark)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6">
+                    <line x1="35" y1="35" x2="50" y2="20"/>
+                    <line x1="35" y1="50" x2="60" y2="25"/>
+                    <line x1="40" y1="65" x2="75" y2="30"/>
+                    <line x1="50" y1="75" x2="85" y2="40"/>
+                </g>
+                <g stroke="url(#janurDark)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6">
+                    <line x1="65" y1="35" x2="50" y2="20"/>
+                    <line x1="65" y1="50" x2="40" y2="25"/>
+                    <line x1="60" y1="65" x2="25" y2="30"/>
+                    <line x1="50" y1="75" x2="15" y2="40"/>
+                </g>
+                <polygon points="50,8 92,50 50,92 8,50" fill="none" stroke="#c4d070" stroke-width="0.8" opacity="0.4"/>
+                <polygon points="50,15 85,50 50,85 15,50" fill="none" stroke="#a8b060" stroke-width="1" opacity="0.3"/>
+                <g fill="url(#janurTail)" stroke="#4a5a10" stroke-width="0.8">
+                    <path d="M43,92 C41,102 38,115 36,125 C38,115 41,102 44,92 Z"/>
+                    <path d="M50,92 C50,105 51,118 52,128 C51,118 50,105 50,92 Z"/>
+                    <path d="M57,92 C59,102 62,115 64,125 C62,115 59,102 56,92 Z"/>
+                </g>
+                <g fill="url(#janurMid)" stroke="#5a6a20" stroke-width="0.5">
+                    <path d="M40,92 C36,100 32,110 30,118 C34,108 38,98 41,92 Z"/>
+                    <path d="M60,92 C64,100 68,110 70,118 C66,108 62,98 59,92 Z"/>
+                </g>
+                <ellipse cx="50" cy="50" rx="6" ry="6" fill="#586810" opacity="0.5"/>
+                <g stroke="#c4d070" stroke-width="1.2" fill="none" opacity="0.5">
+                    <line x1="32" y1="50" x2="38" y2="44"/>
+                    <line x1="50" y1="32" x2="56" y2="38"/>
+                    <line x1="68" y1="50" x2="62" y2="56"/>
+                    <line x1="50" y1="68" x2="44" y2="62"/>
+                </g>
+                <g fill="none" stroke="#4a5a10" stroke-width="0.5" opacity="0.3">
+                    <path d="M20,50 Q35,35 50,50 Q65,65 80,50"/>
+                    <path d="M50,20 Q65,35 50,50 Q35,65 50,80"/>
+                </g>
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="background"></div>
+    <div class="light-beam"></div>
+    <div class="stars" id="stars"></div>
+    <canvas id="particles"></canvas>
+
+    <div class="ornament-container o1">
+        <div class="ornament-chain"></div>
+        <div class="ornament-star"></div>
+    </div>
+    
+    <div class="ornament-container o2">
+        <div class="ornament-chain"></div>
+        <svg class="ornament-crescent" viewBox="0 0 512 512">
+            <path d="M416.3 381.1c-91.1 0-165-73.9-165-165 0-38.3 13.1-73.5 35-101.4-78.1 19-136.3 89.2-136.3 172.9 0 98.6 79.9 178.5 178.5 178.5 83.7 0 153.9-58.3 172.9-136.3-27.9 21.9-63.1 35-101.4 35z"/>
+        </svg>
+    </div>
+
+    <div class="ketupat-wrapper k1">
+        <div class="ketupat-rope"></div>
+        <svg class="ketupat-svg"><use href="#ketupat"/></svg>
+    </div>
+    <div class="ketupat-wrapper k2">
+        <div class="ketupat-rope"></div>
+        <svg class="ketupat-svg"><use href="#ketupat"/></svg>
+    </div>
+    <div class="ketupat-wrapper k3">
+        <div class="ketupat-rope"></div>
+        <svg class="ketupat-svg"><use href="#ketupat"/></svg>
+    </div>
+    <div class="ketupat-wrapper k4">
+        <div class="ketupat-rope"></div>
+        <svg class="ketupat-svg"><use href="#ketupat"/></svg>
+    </div>
+
+    <div class="scene">
+        <div class="glass-card">
+            <div class="corner-ornament corner-tl">
+                <svg><use href="#cornerOrnament"/></svg>
+            </div>
+            <div class="corner-ornament corner-tr">
+                <svg><use href="#cornerOrnament"/></svg>
+            </div>
+            <div class="corner-ornament corner-bl">
+                <svg><use href="#cornerOrnament"/></svg>
+            </div>
+            <div class="corner-ornament corner-br">
+                <svg><use href="#cornerOrnament"/></svg>
+            </div>
+            
+            <p class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+            <p class="subtitle">Selamat Hari Raya</p>
+            <h1>IDUL FITRI</h1>
+            <p class="date">1 Syawal 1447 H</p>
+            
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-diamond"></div>
+                <div class="divider-line"></div>
+            </div>
+            
+            <p class="message">Mari kembali fitrah dengan menyucikan hati,<br>mempererat silaturahmi, dan membuka<br>lembaran baru yang lebih baik.</p>
+            
+            <div class="maaf-section">
+                <div class="maaf-ornament">
+                    <div class="maaf-ornament-line"></div>
+                    <span class="maaf-ornament-star">✦</span>
+                    <div class="maaf-ornament-line"></div>
+                </div>
+                <p class="maaf-text">Mohon Maaf Lahir & Batin</p>
+                <p class="maaf-subtitle">Taqabbalallahu Minna Wa Minkum</p>
+            </div>
+            
+            <a href="https://lebarantiba.my.id/" class="cta-link" target="_blank">
+                <button class="cta-button">KLIK DISINI</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const starsContainer = document.getElementById('stars');
+        const starCount = window.innerWidth < 768 ? 60 : 120;
+        
+        for (let i = 0; i < starCount; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            let size = Math.random() * 2.5 + 0.5;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDuration = (Math.random() * 2.5 + 2.5) + 's';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        let particles = [];
+        let animationId;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', () => {
+            cancelAnimationFrame(animationId);
+            resize();
+            init();
+            animate();
+        });
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 50;
+                this.size = Math.random() * 2.5 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = Math.random() * 0.6 + 0.4;
+                this.opacity = Math.random() * 0.6 + 0.3;
+                this.life = 1;
+            }
+            update(delta) {
+                this.x += this.speedX * delta * 60;
+                this.y -= this.speedY * delta * 60;
+                this.size *= 0.995;
+                this.opacity *= 0.998;
+                this.life -= 0.005;
+                if (this.life <= 0 || this.y < 0 || this.x < 0 || this.x > canvas.width || this.size < 0.2) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowColor = '#FFD700';
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function init() {
+            particles = [];
+            let pCount = window.innerWidth < 768 ? 35 : 65;
+            for (let i = 0; i < pCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        let lastTime = 0;
+        function animate(time = 0) {
+            const delta = (time - lastTime) / 1000;
+            lastTime = time;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update(delta);
+                p.draw();
+            });
+            animationId = requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
 </body>
 </html>`;
