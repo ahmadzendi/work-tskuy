@@ -195,18 +195,18 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             -webkit-backdrop-filter: blur(25px);
             border: 3px solid transparent;
             border-image: linear-gradient(135deg, var(--gold), var(--gold-dark), var(--gold)) 1;
-            border-radius: 30px;
-            padding: 40px 60px;
+            border-radius: 25px;
+            padding: 30px 45px;
             text-align: center;
             box-shadow: 
-                0 30px 80px rgba(0,0,0,0.8),
-                0 0 60px rgba(255,215,0,0.15),
-                inset 0 0 60px rgba(255,215,0,0.1),
+                0 25px 60px rgba(0,0,0,0.8),
+                0 0 50px rgba(255,215,0,0.15),
+                inset 0 0 50px rgba(255,215,0,0.1),
                 inset 0 1px 0 rgba(255,255,255,0.1);
             transform: translateY(30px);
             opacity: 0;
             animation: cardEntrance 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            max-width: 580px;
+            max-width: 480px;
             position: relative;
             overflow: visible;
             will-change: transform, opacity;
@@ -221,7 +221,7 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             right: 10px;
             bottom: 10px;
             border: 1px solid rgba(255,215,0,0.3);
-            border-radius: 22px;
+            border-radius: 18px;
             pointer-events: none;
         }
         .glass-card::after {
@@ -243,8 +243,8 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
         }
         .corner-ornament {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             opacity: 0.8;
             will-change: transform;
         }
@@ -252,7 +252,7 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             width: 100%;
             height: 100%;
             fill: var(--gold);
-            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+            filter: drop-shadow(0 0 8px rgba(255,215,0,0.5));
         }
         .corner-tl { top: -5px; left: -5px; }
         .corner-tr { top: -5px; right: -5px; transform: rotate(90deg); }
@@ -260,26 +260,26 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
         .corner-br { bottom: -5px; right: -5px; transform: rotate(180deg); }
         .bismillah {
             font-family: 'Amiri', serif;
-            font-size: 1.7rem;
+            font-size: 1.4rem;
             color: var(--gold);
-            text-shadow: 0 0 20px rgba(255,215,0,0.5);
-            margin-bottom: 12px;
+            text-shadow: 0 0 15px rgba(255,215,0,0.5);
+            margin-bottom: 8px;
             letter-spacing: 2px;
             animation: glow 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
             will-change: text-shadow;
         }
         .subtitle {
-            font-size: 1.1rem;
-            letter-spacing: 5px;
+            font-size: 0.95rem;
+            letter-spacing: 4px;
             color: var(--gold-light);
             margin-bottom: -5px;
-            text-shadow: 0 0 15px rgba(255, 234, 117, 0.6);
+            text-shadow: 0 0 12px rgba(255, 234, 117, 0.6);
             text-transform: uppercase;
             font-weight: 300;
         }
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 4.5rem;
+            font-size: 3.4rem;
             background: linear-gradient(135deg, #FFD700, #fff8dc, #FFD700, #b8860b);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -287,59 +287,59 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             background-clip: text;
             animation: goldShift 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             text-shadow: none;
-            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.8));
             line-height: 1.1;
             margin-bottom: 5px;
             will-change: background-position;
         }
         .date {
-            font-size: 1rem;
-            letter-spacing: 4px;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
             color: rgba(255,255,255,0.9);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-weight: 300;
         }
         .divider {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin: 20px auto;
+            gap: 12px;
+            margin: 15px auto;
         }
         .divider-line {
-            width: 70px;
+            width: 55px;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
         .divider-diamond {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: var(--gold);
             transform: rotate(45deg);
-            box-shadow: 0 0 15px rgba(255,215,0,0.6);
+            box-shadow: 0 0 12px rgba(255,215,0,0.6);
         }
         .message {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 300;
-            line-height: 1.9;
+            line-height: 1.8;
             color: rgba(255,255,255,0.9);
-            margin-bottom: 20px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
         .maaf-section {
-            margin: 25px 0;
-            padding: 20px 0;
+            margin: 20px 0;
+            padding: 15px 0;
             position: relative;
         }
         .maaf-ornament {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 12px;
+            gap: 15px;
+            margin-bottom: 10px;
         }
         .maaf-ornament-line {
-            width: 50px;
+            width: 40px;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--gold));
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -348,7 +348,7 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             background: linear-gradient(90deg, var(--gold), transparent);
         }
         .maaf-ornament-star {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--gold);
             animation: pulse 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
             will-change: transform, opacity;
@@ -356,7 +356,7 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
         .maaf-text {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             background: linear-gradient(135deg, var(--gold), #fff8dc, var(--gold));
             background-size: 200% 200%;
@@ -365,15 +365,15 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             background-clip: text;
             animation: goldShift 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             text-shadow: none;
-            filter: drop-shadow(0 5px 15px rgba(255,215,0,0.3));
-            margin-bottom: 8px;
+            filter: drop-shadow(0 4px 10px rgba(255,215,0,0.3));
+            margin-bottom: 6px;
             will-change: background-position;
             letter-spacing: 1px;
         }
         .maaf-subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: rgba(255,255,255,0.8);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             font-weight: 300;
         }
         .cta-link {
@@ -385,17 +385,17 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             color: #1a1001;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 0.9rem;
-            padding: 14px 40px;
+            font-size: 0.85rem;
+            padding: 12px 35px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             box-shadow: 
-                0 10px 30px rgba(255, 215, 0, 0.4),
+                0 8px 25px rgba(255, 215, 0, 0.4),
                 0 0 0 2px rgba(255,255,255,0.2),
-                inset 0 2px 5px rgba(255,255,255,0.5);
+                inset 0 2px 4px rgba(255,255,255,0.5);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
@@ -416,9 +416,9 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             left: 100%;
         }
         .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-4px) scale(1.05);
             box-shadow: 
-                0 20px 50px rgba(255, 215, 0, 0.6),
+                0 15px 40px rgba(255, 215, 0, 0.6),
                 0 0 0 3px rgba(255,255,255,0.3),
                 inset 0 2px 5px rgba(255,255,255,0.8);
             color: #000;
@@ -432,7 +432,7 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             100% { transform: rotate(-3deg) translateZ(0); }
         }
         @keyframes cardEntrance {
-            0% { opacity: 0; transform: translateY(40px) scale(0.95) translateZ(0); }
+            0% { opacity: 0; transform: translateY(30px) scale(0.95) translateZ(0); }
             100% { opacity: 1; transform: translateY(0) scale(1) translateZ(0); }
         }
         @keyframes shimmer {
@@ -445,27 +445,27 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
             50% { background-position: 100% 50%; }
         }
         @keyframes glow {
-            0% { text-shadow: 0 0 15px rgba(255,215,0,0.4), 0 0 25px rgba(255,215,0,0.2); }
-            100% { text-shadow: 0 0 35px rgba(255,215,0,0.7), 0 0 50px rgba(255,215,0,0.4); }
+            0% { text-shadow: 0 0 12px rgba(255,215,0,0.4), 0 0 20px rgba(255,215,0,0.2); }
+            100% { text-shadow: 0 0 25px rgba(255,215,0,0.7), 0 0 40px rgba(255,215,0,0.4); }
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1) translateZ(0); opacity: 0.9; }
             50% { transform: scale(1.15) translateZ(0); opacity: 1; }
         }
         @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .subtitle { font-size: 0.9rem; letter-spacing: 3px; }
-            .glass-card { padding: 40px 25px; width: 92%; max-width: 92%; }
-            .message { font-size: 0.9rem; line-height: 1.8; }
-            .cta-button { padding: 14px 35px; font-size: 0.9rem; }
+            h1 { font-size: 2.6rem; }
+            .subtitle { font-size: 0.85rem; letter-spacing: 3px; }
+            .glass-card { padding: 25px 20px; width: 92%; max-width: 92%; }
+            .message { font-size: 0.85rem; line-height: 1.7; }
+            .cta-button { padding: 12px 30px; font-size: 0.8rem; }
             .k3, .o1 { display: none; }
             .k1 .ketupat-rope { height: 120px; }
             .k1 .ketupat-svg { width: 70px; height: 85px; }
             .o2 .ornament-chain { height: 100px; }
-            .bismillah { font-size: 1.5rem; }
-            .maaf-text { font-size: 1.8rem; }
-            .corner-ornament { width: 40px; height: 40px; }
-            .divider-line { width: 50px; }
+            .bismillah { font-size: 1.2rem; }
+            .maaf-text { font-size: 1.5rem; }
+            .corner-ornament { width: 35px; height: 35px; }
+            .divider-line { width: 45px; }
         }
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -477,6 +477,8 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
     </style>
 </head>
 <body>
+
+    <audio id="bgMusic" src="https://files.catbox.moe/1a01tk.mp3" autoplay loop style="display:none;"></audio>
 
     <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <defs>
@@ -659,6 +661,17 @@ export var HTML_TEMPLATE = `<!DOCTYPE html>
     </div>
 
     <script>
+        const bgMusic = document.getElementById('bgMusic');
+        
+        function tryPlay() {
+            bgMusic.play().catch(() => {});
+        }
+        
+        window.addEventListener('DOMContentLoaded', tryPlay);
+        window.addEventListener('load', tryPlay);
+        document.addEventListener('click', tryPlay, { once: true });
+        document.addEventListener('touchstart', tryPlay, { once: true });
+
         const starsContainer = document.getElementById('stars');
         const starCount = window.innerWidth < 768 ? 60 : 120;
         
